@@ -24,9 +24,15 @@ object AppDependencies {
     "com.vladsch.flexmark"    %  "flexmark-all"             % "0.36.8" % "test, it",
     "org.scalatestplus.play"  %% "scalatestplus-play"       % "4.0.3"  % "test, it",
    "com.github.alexarchambault" %% "scalacheck-shapeless_1.14"  % "1.2.1"          % "test",
+    "org.scalatestplus"          %% "scalacheck-1-14"           % "3.2.0.0"        % Test,
     "org.pegdown"                 % "pegdown"                    % "1.6.0"          % "test, it",
     "uk.gov.hmrc"                %% "reactivemongo-test"        % "4.22.0-play-27" % "test"
 
+    /*
+
+    "org.scalamock"              %% "scalamock"                 % "4.2.0"          % "test",
+
+     */
 
 
     //"org.scalatest"              %% "scalatest"                  % "3.0.8"          % "test",
