@@ -7,7 +7,7 @@ object AppDependencies {
 
   val compile = Seq(
     "uk.gov.hmrc"             %% "bootstrap-backend-play-27"  % "3.0.0",
-    "uk.gov.hmrc"             %% "simple-reactivemongo"       % "7.31.0-play-27",
+    "uk.gov.hmrc"             %% "simple-reactivemongo"       % "7.30.0-play-27",
     "org.typelevel"                           %% "cats-core"                 % "2.1.0",
     "org.julienrf"                            %% "play-json-derived-codecs"  % "7.0.0",
     "com.github.kxbmap"                       %% "configs"                   % "0.4.4",
@@ -15,8 +15,6 @@ object AppDependencies {
     "com.github.ghik"                          % "silencer-lib"              % "1.6.0" % Provided cross CrossVersion.full
 
 
-  // doff "uk.gov.hmrc"       %% "bootstrap-backend-play-27" % "3.0.0",
-  // diff "uk.gov.hmrc"       %% "simple-reactivemongo"      % "7.30.0-play-27",
   //"uk.gov.hmrc"       %% "work-item-repo"            % "7.11.0-play-27",
   // diff "org.typelevel"     %% "cats-core"                 % "2.3.1",
   //"org.julienrf"      %% "play-json-derived-codecs"  % "7.0.0",
