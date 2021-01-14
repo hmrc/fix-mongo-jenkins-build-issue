@@ -19,12 +19,16 @@ package uk.gov.hmrc.fixmongojenkinsbuildissue.repositories
 import cats.data.EitherT
 import cats.instances.list._
 import cats.syntax.either._
+import com.github.ghik.silencer.silent
 import org.joda.time.DateTime
+import org.slf4j.Logger
 import play.api.libs.json._
 import reactivemongo.api.Cursor
+import reactivemongo.api.commands.WriteResult
 import reactivemongo.api.indexes.{Index, IndexType}
 import reactivemongo.bson.{BSONDocument, BSONObjectID}
 import reactivemongo.play.json.ImplicitBSONHandlers.JsObjectDocumentWriter
+import reactivemongo.play.json.collection.JSONCollection
 import uk.gov.hmrc.fixmongojenkinsbuildissue.models.Error
 import uk.gov.hmrc.fixmongojenkinsbuildissue.models.ListUtils._
 import uk.gov.hmrc.mongo.ReactiveRepository
@@ -35,11 +39,10 @@ import java.time.LocalDateTime
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
-import scala.util.{Failure, Success}
 
-trait CacheRepository[A] {
-  this: ReactiveRepository[A, BSONObjectID] =>
+trait CacheRepository[A] extends ReactiveRepository[A, BSONObjectID] {
 
+  @silent
   implicit val ec: ExecutionContext
 
   val cacheTtl: FiniteDuration
@@ -52,12 +55,11 @@ trait CacheRepository[A] {
     options = BSONDocument("expireAfterSeconds" -> cacheTtl.toSeconds)
   )
 
-  dropInvalidIndexes()
-    .flatMap(_ => collection.indexesManager.create(cacheTtlIndex))
-    .onComplete {
-      case Success(_) => logger.info("Successfully ensured ttl index")
-      case Failure(e) => logger.warn("Could not ensure ttl index", e)
-    }
+  override def ensureIndexes(implicit ec: ExecutionContext): Future[Seq[Boolean]] =
+    for {
+      result <- super.ensureIndexes(ec)
+      _      <- CacheRepository.setTtlIndex(cacheTtlIndex, cacheTtlIndexName, cacheTtl, collection, logger)(ec)
+    } yield result
 
   def set(id: String, value: A, overrideLastUpdatedTime: Option[LocalDateTime] = None): Future[Either[Error, Unit]] =
     preservingMdc {
@@ -79,7 +81,7 @@ trait CacheRepository[A] {
             if (writeResult.ok)
               Right(())
             else
-              Left(Error(s"Could not store draft return: ${writeResult.errmsg.getOrElse("-")}"))
+              Left(Error(s"Could not store reimbursement claim: ${writeResult.errmsg.getOrElse("-")}"))
           }
           .recover { case NonFatal(e) =>
             Left(Error(e))
@@ -137,20 +139,6 @@ trait CacheRepository[A] {
       .asEither
       .leftMap(e ⇒ s"Could not parse session data from mongo: ${e.mkString("; ")}")
 
-  private def dropInvalidIndexes(): Future[Unit] =
-    collection.indexesManager.list().flatMap { indexes =>
-      indexes
-        .find { index =>
-          index.name.contains(cacheTtlIndexName) &&
-          !index.options.getAs[Long]("expireAfterSeconds").contains(cacheTtl.toSeconds)
-        }
-        .map { i =>
-          logger.warn(s"dropping $i as ttl value is incorrect for index")
-          collection.indexesManager.drop(cacheTtlIndexName).map(_ => ())
-        }
-        .getOrElse(Future.successful(()))
-    }
-
   private def toJodaDateTime(dateTime: LocalDateTime): org.joda.time.DateTime =
     new org.joda.time.DateTime(
       dateTime.getYear,
@@ -160,5 +148,41 @@ trait CacheRepository[A] {
       dateTime.getMinute,
       dateTime.getSecond
     )
+
+}
+
+object CacheRepository {
+
+  def setTtlIndex(
+    ttlIndex: Index,
+    ttlIndexName: String,
+    ttl: FiniteDuration,
+    collection: JSONCollection,
+    logger: Logger
+  )(implicit ex: ExecutionContext): Future[WriteResult] = {
+    def dropInvalidIndexes(): Future[Unit] =
+      collection.indexesManager.list().flatMap { indexes =>
+        indexes
+          .find { index =>
+            index.name.contains(ttlIndexName) &&
+            !index.options.getAs[Long]("expireAfterSeconds").contains(ttl.toSeconds)
+          }
+          .map { i =>
+            logger.warn(s"dropping $i as ttl value is incorrect for index")
+            collection.indexesManager.drop(ttlIndexName).map(_ => ())
+          }
+          .getOrElse(Future.successful(()))
+      }
+
+    dropInvalidIndexes()
+      .flatMap(_ => collection.indexesManager.create(ttlIndex))
+      .transform { result =>
+        result.fold(
+          e => logger.warn("Could not ensure ttl index", e),
+          _ => logger.info("Successfully ensured ttl index")
+        )
+        result
+      }
+  }
 
 }
