@@ -16,17 +16,17 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.controllers
 
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.wordspec.AnyWordSpec
+
+import org.scalatest.{Matchers, WordSpec}
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.{Configuration, Environment}
 import play.api.http.Status
 import play.api.test.Helpers._
 import play.api.test.{FakeRequest, Helpers}
-import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+import play.api.{Configuration, Environment}
 import uk.gov.hmrc.fixmongojenkinsbuildissue.config.AppConfig
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
-class MicroserviceHelloWorldControllerSpec extends AnyWordSpec with Matchers with GuiceOneAppPerSuite {
+class MicroserviceHelloWorldControllerSpec extends WordSpec with Matchers with GuiceOneAppPerSuite {
 
   private val fakeRequest = FakeRequest("GET", "/")
 
