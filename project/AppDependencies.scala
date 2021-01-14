@@ -4,7 +4,7 @@ import sbt.Keys.libraryDependencies
 import sbt._
 
 object AppDependencies {
-  val silencerVersion = "1.6.0"
+  val silencerVersion = "1.7.0"
 
   val compile = Seq(
     "uk.gov.hmrc"       %% "bootstrap-backend-play-27" % "3.0.0",
