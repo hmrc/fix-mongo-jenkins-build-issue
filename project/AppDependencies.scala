@@ -25,7 +25,7 @@ object AppDependencies {
     "org.scalatestplus.play"  %% "scalatestplus-play"       % "4.0.3"  % "test, it",
    "com.github.alexarchambault" %% "scalacheck-shapeless_1.14"  % "1.2.1"          % "test",
     "org.pegdown"                 % "pegdown"                    % "1.6.0"          % "test, it",
-    "uk.gov.hmrc"                %% "reactivemongo-test"         % "4.21.0-play-26" % "test"
+    "uk.gov.hmrc"                %% "reactivemongo-test"        % "4.22.0-play-27" % "test"
 
 
 
