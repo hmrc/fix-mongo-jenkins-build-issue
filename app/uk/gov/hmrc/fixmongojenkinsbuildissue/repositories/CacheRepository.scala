@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.repositories
 
-import java.time.LocalDateTime
 import cats.data.EitherT
 import cats.instances.list._
 import cats.syntax.either._
@@ -32,6 +31,7 @@ import uk.gov.hmrc.mongo.ReactiveRepository
 import uk.gov.hmrc.mongo.json.ReactiveMongoFormats.dateTimeWrite
 import uk.gov.hmrc.play.http.logging.Mdc.preservingMdc
 
+import java.time.LocalDateTime
 import scala.concurrent.duration.FiniteDuration
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NonFatal
