@@ -16,13 +16,13 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 final case class UpscanUploadMeta(
-                                   reference: String,
-                                   uploadRequest: UploadRequest
-                                 )
+  reference: String,
+  uploadRequest: UploadRequest
+)
 
 object UpscanUploadMeta {
-  implicit val format = Json.format[UpscanUploadMeta]
+  implicit val format: OFormat[UpscanUploadMeta] = Json.format[UpscanUploadMeta]
 }

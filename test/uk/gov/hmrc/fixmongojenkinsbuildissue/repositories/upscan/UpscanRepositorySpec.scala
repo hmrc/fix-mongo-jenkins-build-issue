@@ -101,4 +101,3 @@ class UpscanRepositorySpec extends AnyWordSpec with Matchers with MongoSupport {
     }
   }
 }
-

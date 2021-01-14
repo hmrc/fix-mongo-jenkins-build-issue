@@ -16,13 +16,13 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 final case class UploadRequest(
-                                href: String,
-                                fields: Map[String, String]
-                              )
+  href: String,
+  fields: Map[String, String]
+)
 
 object UploadRequest {
-  implicit val format = Json.format[UploadRequest]
+  implicit val format: OFormat[UploadRequest] = Json.format[UploadRequest]
 }

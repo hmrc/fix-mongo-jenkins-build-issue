@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.models
 
-
 import akka.util.ByteString
 import org.joda.time.DateTime
 import org.scalacheck.ScalacheckShapeless._
@@ -28,9 +27,7 @@ import uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan.{UploadReference, Ups
 import java.time.{Instant, LocalDate, LocalDateTime, ZoneId}
 import scala.reflect.{ClassTag, classTag}
 
-object Generators
-  extends GenUtils
-    with UpscanGen {
+object Generators extends GenUtils with UpscanGen {
 
   def sample[A : ClassTag](implicit gen: Gen[A]): A =
     gen.sample.getOrElse(sys.error(s"Could not generate instance of ${classTag[A].runtimeClass.getSimpleName}"))

@@ -24,24 +24,24 @@ sealed trait UpscanCallBack extends Product with Serializable
 object UpscanCallBack {
 
   final case class UpscanSuccess(
-                                  reference: String,
-                                  fileStatus: String,
-                                  downloadUrl: String,
-                                  uploadDetails: Map[String, String]
-                                ) extends UpscanCallBack
+    reference: String,
+    fileStatus: String,
+    downloadUrl: String,
+    uploadDetails: Map[String, String]
+  ) extends UpscanCallBack
 
   object UpscanSuccess {
-    implicit val format = Json.format[UpscanSuccess]
+    implicit val format: OFormat[UpscanSuccess] = Json.format[UpscanSuccess]
   }
 
   final case class UpscanFailure(
-                                  reference: String,
-                                  fileStatus: String,
-                                  failureDetails: Map[String, String]
-                                ) extends UpscanCallBack
+    reference: String,
+    fileStatus: String,
+    failureDetails: Map[String, String]
+  ) extends UpscanCallBack
 
   object UpscanFailure {
-    implicit val format = Json.format[UpscanFailure]
+    implicit val format: OFormat[UpscanFailure] = Json.format[UpscanFailure]
   }
 
   implicit val format: OFormat[UpscanCallBack] = derived.oformat()

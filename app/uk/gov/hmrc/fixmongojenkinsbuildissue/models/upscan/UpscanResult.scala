@@ -17,9 +17,9 @@
 package uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan
 
 final case class UpscanResult(
-                               reference: String,
-                               fileStatus: String,
-                               downloadUrl: Option[String],
-                               uploadDetails: Option[Map[String, String]],
-                               failureDetails: Option[Map[String, String]]
-                             )
+  reference: String,
+  fileStatus: String,
+  downloadUrl: Option[String],
+  uploadDetails: Option[Map[String, String]],
+  failureDetails: Option[Map[String, String]]
+)

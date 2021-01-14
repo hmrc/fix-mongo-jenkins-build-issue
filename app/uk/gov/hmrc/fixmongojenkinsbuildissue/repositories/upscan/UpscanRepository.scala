@@ -35,35 +35,35 @@ import scala.concurrent.{ExecutionContext, Future}
 trait UpscanRepository {
 
   def insert(
-              upscanUpload: UpscanUpload
-            ): EitherT[Future, Error, Unit]
+    upscanUpload: UpscanUpload
+  ): EitherT[Future, Error, Unit]
 
   def select(
-              uploadReference: UploadReference
-            ): EitherT[Future, Error, Option[UpscanUpload]]
+    uploadReference: UploadReference
+  ): EitherT[Future, Error, Option[UpscanUpload]]
 
   def update(
-              uploadReference: UploadReference,
-              upscanUpload: UpscanUpload
-            ): EitherT[Future, Error, Unit]
+    uploadReference: UploadReference,
+    upscanUpload: UpscanUpload
+  ): EitherT[Future, Error, Unit]
 
   def selectAll(
-                 uploadReference: List[UploadReference]
-               ): EitherT[Future, Error, List[UpscanUpload]]
+    uploadReference: List[UploadReference]
+  ): EitherT[Future, Error, List[UpscanUpload]]
 
 }
 
 @Singleton
-class DefaultUpscanRepository @Inject()(mongo: ReactiveMongoComponent, config: Configuration)(implicit
-                                                                                              val ec: ExecutionContext
+class DefaultUpscanRepository @Inject() (mongo: ReactiveMongoComponent, config: Configuration)(implicit
+  val ec: ExecutionContext
 ) extends ReactiveRepository[UpscanUpload, BSONObjectID](
-  collectionName = "upscan",
-  mongo = mongo.mongoConnector.db,
-  UpscanUpload.format,
-  ReactiveMongoFormats.objectIdFormats
-)
-  with UpscanRepository
-  with CacheRepository[UpscanUpload] {
+      collectionName = "upscan",
+      mongo = mongo.mongoConnector.db,
+      UpscanUpload.format,
+      ReactiveMongoFormats.objectIdFormats
+    )
+    with UpscanRepository
+    with CacheRepository[UpscanUpload] {
 
   override val cacheTtlIndexName: String = "upscan-cache-ttl"
 
@@ -72,8 +72,8 @@ class DefaultUpscanRepository @Inject()(mongo: ReactiveMongoComponent, config: C
   val cacheTtl: FiniteDuration = config.underlying.get[FiniteDuration]("mongodb.upscan.expiry-time").value
 
   override def insert(
-                       upscanUpload: UpscanUpload
-                     ): EitherT[Future, Error, Unit] =
+    upscanUpload: UpscanUpload
+  ): EitherT[Future, Error, Unit] =
     EitherT(
       set(
         upscanUpload.uploadReference.value,
@@ -83,14 +83,14 @@ class DefaultUpscanRepository @Inject()(mongo: ReactiveMongoComponent, config: C
     )
 
   override def select(
-                       uploadReference: UploadReference
-                     ): EitherT[Future, Error, Option[UpscanUpload]] =
+    uploadReference: UploadReference
+  ): EitherT[Future, Error, Option[UpscanUpload]] =
     EitherT(find(uploadReference.value))
 
   override def update(
-                       uploadReference: UploadReference,
-                       upscanUpload: UpscanUpload
-                     ): EitherT[Future, Error, Unit] =
+    uploadReference: UploadReference,
+    upscanUpload: UpscanUpload
+  ): EitherT[Future, Error, Unit] =
     EitherT(
       set(
         uploadReference.value,
@@ -100,8 +100,8 @@ class DefaultUpscanRepository @Inject()(mongo: ReactiveMongoComponent, config: C
     )
 
   override def selectAll(
-                          uploadReference: List[UploadReference]
-                        ): EitherT[Future, Error, List[UpscanUpload]] =
+    uploadReference: List[UploadReference]
+  ): EitherT[Future, Error, List[UpscanUpload]] =
     EitherT(findAll(uploadReference.map(_.value)))
 
 }
