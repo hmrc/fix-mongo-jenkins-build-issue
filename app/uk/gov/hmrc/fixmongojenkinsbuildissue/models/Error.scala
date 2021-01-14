@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.models
 
-import uk.gov.hmrc.fixmongojenkinsbuildissue.models.Error._
+import uk.gov.hmrc.fixmongojenkinsbuildissue.models.Error.{IdKey, IdValue}
 
 final case class Error(value: Either[String, Throwable], identifiers: Map[IdKey, IdValue])
 

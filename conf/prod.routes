@@ -1,5 +1,6 @@
 # Add all the application routes to the app.routes file
-->         /fix-mongo-jenkins-build-issue              app.Routes
-->         /                          health.Routes
+->          /fix-mongo-jenkins-build-issue                app.Routes
+->          /fix-mongo-jenkins-build-issue                upscan.Routes
+->          /                                       health.Routes
 
 GET        /admin/metrics             com.kenshoo.play.metrics.MetricsController.metrics

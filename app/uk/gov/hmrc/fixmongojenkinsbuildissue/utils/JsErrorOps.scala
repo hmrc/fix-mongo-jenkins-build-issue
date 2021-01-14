@@ -14,18 +14,25 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.fixmongojenkinsbuildissue.controllers
+package uk.gov.hmrc.fixmongojenkinsbuildissue.utils
 
-import play.api.mvc.{Action, AnyContent, ControllerComponents}
-import uk.gov.hmrc.play.bootstrap.backend.controller.BackendController
+import play.api.libs.json.JsError
 
-import javax.inject.{Inject, Singleton}
-import scala.concurrent.Future
+object JsErrorOps {
 
-@Singleton()
-class MicroserviceHelloWorldController @Inject() (cc: ControllerComponents) extends BackendController(cc) {
+  implicit def j(jsError: JsError): JsErrorOps = new JsErrorOps(jsError)
 
-  def hello(): Action[AnyContent] = Action.async {
-    Future.successful(Ok("Hello world"))
-  }
+}
+
+class JsErrorOps(val error: JsError) extends AnyVal {
+
+  /** Create a legible string describing the error suitable for debugging purposes
+    */
+  def prettyPrint(): String =
+    error.errors
+      .map { case (jsPath, validationErrors) ⇒
+        jsPath.toString + ": [" + validationErrors.map(_.message).mkString(",") + "]"
+      }
+      .mkString("; ")
+
 }

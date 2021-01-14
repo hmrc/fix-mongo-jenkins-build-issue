@@ -1,0 +1,4 @@
+GET     /upscan/upload-reference/:ref                       uk.gov.hmrc.fixmongojenkinsbuildissue.controllers.upscan.UpscanController.getUpscanUpload(ref: uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan.UploadReference)
+POST    /upscan                                             uk.gov.hmrc.fixmongojenkinsbuildissue.controllers.upscan.UpscanController.saveUpscanUpload()
+POST    /upscan-call-back/upload-reference/:ref             uk.gov.hmrc.fixmongojenkinsbuildissue.controllers.upscan.UpscanController.callback(ref:  uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan.UploadReference)
+POST    /upscan/uploads                                     uk.gov.hmrc.fixmongojenkinsbuildissue.controllers.upscan.UpscanController.getUpscanUploads()

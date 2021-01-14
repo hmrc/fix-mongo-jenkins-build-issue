@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.repositories.upscan
 
-import java.time.{Clock, LocalDateTime}
 import com.typesafe.config.ConfigFactory
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -24,11 +23,12 @@ import play.api.Configuration
 import play.api.test.Helpers._
 import uk.gov.hmrc.fixmongojenkinsbuildissue.models.Generators.{sample, _}
 import uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan.{UploadReference, UpscanUpload}
-import uk.gov.hmrc.fixmongojenkinsbuildissue.repositories.MongoSupport
+import uk.gov.hmrc.fixmongojenkinsbuildissue.repositories.MongoTestSupport
 
+import java.time.{Clock, LocalDateTime}
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class UpscanRepositorySpec extends AnyWordSpec with Matchers with MongoSupport {
+class UpscanRepositorySpec extends AnyWordSpec with Matchers with MongoTestSupport {
 
   val config = Configuration(
     ConfigFactory.parseString(

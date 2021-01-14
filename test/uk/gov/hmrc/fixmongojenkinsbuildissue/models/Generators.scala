@@ -42,6 +42,7 @@ object Generators extends GenUtils with UpscanGen {
 
 }
 
+// generator helpers
 sealed trait GenUtils {
 
   def gen[A](implicit arb: Arbitrary[A]): Gen[A] = arb.arbitrary
@@ -73,7 +74,7 @@ sealed trait GenUtils {
     )
 
   implicit val localDateArb: Arbitrary[LocalDate] = Arbitrary(
-    Gen.chooseNum(0, 10000L).map(LocalDate.ofEpochDay(_))
+    Gen.chooseNum(0, 10000L).map(LocalDate.ofEpochDay)
   )
 
   implicit val byteStringArb: Arbitrary[ByteString] =
@@ -93,7 +94,6 @@ sealed trait GenUtils {
 }
 
 trait UpscanGen { this: GenUtils =>
-
   implicit val upscanUploadGen: Gen[UpscanUpload]       = gen[UpscanUpload]
   implicit val uploadReferenceGen: Gen[UploadReference] = gen[UploadReference]
   implicit val upscanSuccessGen: Gen[UpscanSuccess]     = gen[UpscanSuccess]

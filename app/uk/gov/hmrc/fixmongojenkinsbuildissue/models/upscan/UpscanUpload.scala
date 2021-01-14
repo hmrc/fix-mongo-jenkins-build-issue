@@ -16,9 +16,8 @@
 
 package uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan
 
-import play.api.libs.json.{Json, OFormat}
-
 import java.time.LocalDateTime
+import play.api.libs.json.{Json, OFormat}
 
 final case class UpscanUpload(
   uploadReference: UploadReference,
