@@ -12,7 +12,7 @@ object AppDependencies {
     "org.julienrf"                            %% "play-json-derived-codecs"  % "7.0.0",
     "com.github.kxbmap"                       %% "configs"                   % "0.4.4",
     "com.googlecode.owasp-java-html-sanitizer" % "owasp-java-html-sanitizer" % "20191001.1",
-    "com.github.ghik"                          % "silencer-lib"              % "1.6.0" % Provided cross CrossVersion.full
+    "com.github.ghik"                          % "silencer-lib"              % "1.6.0" % Provided cross CrossVersion.full,
   "uk.gov.hmrc"       %% "work-item-repo"            % "7.11.0-play-27"
   // diff "org.typelevel"     %% "cats-core"                 % "2.3.1",
  // "com.github.kxbmap" %% "configs"                   % "0.5.0",
