@@ -26,6 +26,7 @@ import uk.gov.hmrc.fixmongojenkinsbuildissue.models.upscan.{UploadReference, Ups
 import uk.gov.hmrc.fixmongojenkinsbuildissue.repositories.MongoTestSupport
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.{FiniteDuration, SECONDS}
 
 class UpscanRepositoryFailureSpec extends AnyWordSpec with Matchers with MongoTestSupport {
   val config = Configuration(
@@ -36,9 +37,12 @@ class UpscanRepositoryFailureSpec extends AnyWordSpec with Matchers with MongoTe
     )
   )
 
-  val repository = new DefaultUpscanRepository(reactiveMongoComponent, config)
+  val repository: DefaultUpscanRepository = new DefaultUpscanRepository(reactiveMongoComponent, config)
 
-  await(repository.count.map(_ => reactiveMongoComponent.mongoConnector.helper.driver.close()))
+  override def beforeAll(): Unit = {
+    super.beforeEach()
+    reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(10, SECONDS))
+  }
 
   "Upscan Repository" when {
     "inserting" should {
