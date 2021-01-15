@@ -73,8 +73,8 @@ lazy val microservice = Project(appName, file("."))
   .settings(scalafmtOnCompile := true)
 
 
-val akkaVersion     = "2.5.23"
-val akkaHttpVersion = "10.0.15"
+val akkaVersion     = "2.6.5"
+val akkaHttpVersion = "10.2.2"
 
 dependencyOverrides += "com.typesafe.akka" %% "akka-stream"    % akkaVersion
 dependencyOverrides += "com.typesafe.akka" %% "akka-protobuf"  % akkaVersion
