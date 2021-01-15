@@ -19,7 +19,6 @@ package uk.gov.hmrc.fixmongojenkinsbuildissue.repositories
 import cats.data.EitherT
 import cats.instances.list._
 import cats.syntax.either._
-import com.github.ghik.silencer.silent
 import org.joda.time.DateTime
 import org.slf4j.Logger
 import play.api.libs.json._
@@ -42,7 +41,6 @@ import scala.util.control.NonFatal
 
 trait CacheRepository[A] extends ReactiveRepository[A, BSONObjectID] {
 
-  @silent
   implicit val ec: ExecutionContext
 
   val cacheTtl: FiniteDuration
