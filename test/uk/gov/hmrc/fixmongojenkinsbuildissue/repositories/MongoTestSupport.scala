@@ -36,6 +36,6 @@ trait MongoTestSupport extends MongoSpecSupport with BeforeAndAfterEach with Bef
 
   abstract override def afterAll(): Unit = {
     super.afterAll()
-    reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(10, SECONDS))
+    reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(20, SECONDS))
   }
 }
