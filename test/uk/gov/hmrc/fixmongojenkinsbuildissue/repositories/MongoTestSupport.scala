@@ -24,7 +24,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.{FiniteDuration, SECONDS}
 
 trait MongoTestSupport extends MongoSpecSupport with BeforeAndAfterEach with BeforeAndAfterAll { this: Suite ⇒
-
   val reactiveMongoComponent: ReactiveMongoComponent = new ReactiveMongoComponent {
     override def mongoConnector: MongoConnector = mongoConnectorForTest
   }

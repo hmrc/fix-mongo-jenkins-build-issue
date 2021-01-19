@@ -37,12 +37,12 @@ class UpscanRepositoryFailureSpec extends AnyWordSpec with Matchers with MongoTe
     )
   )
 
-  val repository: DefaultUpscanRepository = new DefaultUpscanRepository(reactiveMongoComponent, config)
+  val repository = new DefaultUpscanRepository(reactiveMongoComponent, config)
 
   override def beforeAll(): Unit = {
     super.beforeAll()
-    Thread.sleep(20) //allow indexing to complete
     reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(10, SECONDS))
+    Thread.sleep(2200) //allow indexing to complete
   }
 
   "Upscan Repository" when {
