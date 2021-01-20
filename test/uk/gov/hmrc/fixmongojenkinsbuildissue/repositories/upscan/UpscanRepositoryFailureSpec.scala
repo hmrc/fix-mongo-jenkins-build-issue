@@ -17,6 +17,7 @@
 package uk.gov.hmrc.fixmongojenkinsbuildissue.repositories.upscan
 
 import com.typesafe.config.ConfigFactory
+import org.scalatest.DoNotDiscover
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import play.api.Configuration
@@ -28,6 +29,7 @@ import uk.gov.hmrc.fixmongojenkinsbuildissue.repositories.MongoTestSupport
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.{FiniteDuration, SECONDS}
 
+@DoNotDiscover
 class UpscanRepositoryFailureSpec extends AnyWordSpec with Matchers with MongoTestSupport {
   val config = Configuration(
     ConfigFactory.parseString(
@@ -41,8 +43,8 @@ class UpscanRepositoryFailureSpec extends AnyWordSpec with Matchers with MongoTe
 
   override def beforeAll(): Unit = {
     super.beforeAll()
-    reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(10, SECONDS))
     Thread.sleep(2200) //allow indexing to complete
+    reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(10, SECONDS))
   }
 
   "Upscan Repository" when {
