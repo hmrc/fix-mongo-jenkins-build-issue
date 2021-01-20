@@ -21,7 +21,6 @@ import play.modules.reactivemongo.ReactiveMongoComponent
 import uk.gov.hmrc.mongo.{MongoConnector, MongoSpecSupport}
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration.{FiniteDuration, SECONDS}
 
 trait MongoTestSupport extends MongoSpecSupport with BeforeAndAfterEach with BeforeAndAfterAll { this: Suite ⇒
   val reactiveMongoComponent: ReactiveMongoComponent = new ReactiveMongoComponent {
@@ -33,8 +32,8 @@ trait MongoTestSupport extends MongoSpecSupport with BeforeAndAfterEach with Bef
     mongo().drop()
   }
 
-  abstract override def afterAll(): Unit = {
-    super.afterAll()
-    reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(10, SECONDS))
-  }
+//  abstract override def afterAll(): Unit = {
+//    super.afterAll()
+//    reactiveMongoComponent.mongoConnector.helper.driver.close(FiniteDuration(10, SECONDS))
+//  }
 }
